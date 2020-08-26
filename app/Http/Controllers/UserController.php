@@ -6,9 +6,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Utils\CommonUtils;
+use App\Services\CustomService;
 
 class UserController extends  Controller {
-        public function __construct(){
+        protected  $customService;
+        public function __construct(CustomService $customService){
+            $this->customService = $customService;
             //指定类内方法要经过的路由
             $this->middleware('mid');
             //指定方法使用指定路由
@@ -41,7 +44,7 @@ class UserController extends  Controller {
 
         public function log(Request $request){
             echo "Some of my log";
-
+            $this->customService->customService();
             return CommonUtils::jsonResponse(1,["data"  => "和啊哈"]);
         }
 
