@@ -7,6 +7,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Utils\CommonUtils;
 use App\Services\CustomService;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends  Controller {
         protected  $customService;
@@ -49,6 +51,17 @@ class UserController extends  Controller {
         }
 
         public function except1(Request $request){
-            echo 'Exception!';
+            Cache::add("mykey","myvalue");
+//            $res2 = DB::select('SELECT realname FROM bj_user WHERE id = :userid LIMIT 1',['userid'  => 1]);
+//            echo $res2[0]->realname;
+            $roleId = 2;
+            $res = DB::table('bj_user')->when($roleId == 1,
+                function($query){
+                return $query->where('delete_flag',0);
+            },function($query, $roleId){
+                return $query->where('role_id',$roleId)->where('delete_flag',0);
+            })->get();
+            echo count($res);
+            echo Cache::get("mykey");
         }
 }

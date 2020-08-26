@@ -20,7 +20,7 @@ $router->post('/user/show[case]','UserController@show');
 
 $router->get('/user/log','UserController@log');
 
-$router->get('/user/except','UserController@log');
+$router->get('/user/except','UserController@except1');
 
 $router->get('/user[/{id}]', ['as'  => 'detail' ,'uses'    =>'UserController@index']);
 
