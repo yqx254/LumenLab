@@ -9,6 +9,8 @@ use App\Utils\CommonUtils;
 use App\Services\CustomService;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use App\Model\Users;
+use App\Model\Roles;
 
 class UserController extends  Controller {
         protected  $customService;
@@ -41,7 +43,17 @@ class UserController extends  Controller {
         }
 
         public function show2(Request $request){
-            return redirect()->route('detail');
+            $user = Users::where('id',1)->first();
+            $roles = $user->roles;
+            foreach($roles as $v){
+                //使用pivot来获取中间表的字段
+                $v->user_id = $v->pivot->user_id;
+            }
+            //最少有一个角色
+            $users = Users::has('roles')->get();
+            $users = Users::withCount('roles')->get();
+            dd($users);
+            return CommonUtils::jsonResponse(1,$roles);
         }
 
         public function log(Request $request){
@@ -55,7 +67,7 @@ class UserController extends  Controller {
 //            $res2 = DB::select('SELECT realname FROM bj_user WHERE id = :userid LIMIT 1',['userid'  => 1]);
 //            echo $res2[0]->realname;
             $roleId = 2;
-            $res = DB::table('bj_user')->when($roleId == 1,
+            $res = DB::table('bj_user')->when($roleId,
                 function($query){
                 return $query->where('delete_flag',0);
             },function($query, $roleId){
