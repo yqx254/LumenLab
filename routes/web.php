@@ -32,6 +32,8 @@ $router->get('/show1', ['uses'  => 'UserController@show1']);
 
 $router->get('/show2', ['uses'  => 'UserController@show2']);
 
+$router->get('/collection', ['uses'  => 'UserController@caseCollections']);
+
 $router->group(['middleware'    => ['mid'], 'prefix'   => 'filter', 'namespace'    => 'Filter'], function() use($router){
     $router->get('/profile',['uses'  => 'ProfileController@index']);
     $router->post('/edit',['uses'  => 'ProfileController@edit']);

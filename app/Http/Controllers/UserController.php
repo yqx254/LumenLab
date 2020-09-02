@@ -7,10 +7,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Utils\CommonUtils;
 use App\Services\CustomService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use App\Model\Users;
 use App\Model\Roles;
+use App\Model\Cases;
 
 class UserController extends  Controller {
         protected  $customService;
@@ -37,11 +39,23 @@ class UserController extends  Controller {
         public function show(Request $request){
             echo json_encode($request->input('data','nothing'));
         }
-
+        //试玩user case一对多关联
         public function show1(Request $request){
-            echo route('detail');
+            //这个方法会导致每一个user都自己查case，弄出很多条查询语句来
+            //$user = Users::all();
+            //with预加载
+            //with => 闭包，对预加载进行筛选
+            $user = Users::with(['cases'    => function($query){
+                $query->where('status',1);
+            }])->get();
+            foreach($user as $val){
+                foreach($val->cases as $v){
+                    echo $v->client_name;
+                }
+            }
+            return CommonUtils::jsonResponse(1);
         }
-
+        //试玩user role多对多关联
         public function show2(Request $request){
             $user = Users::where('id',1)->first();
             $roles = $user->roles;
@@ -51,11 +65,43 @@ class UserController extends  Controller {
             }
             //最少有一个角色
             $users = Users::has('roles')->get();
+            //不加载关联数据但进行聚合统计噢，好腻害
             $users = Users::withCount('roles')->get();
             dd($users);
             return CommonUtils::jsonResponse(1,$roles);
         }
 
+        //试玩集合类各种功能
+        public function caseCollections(Request $request){
+            $cases = Cases::all();
+
+            //是否包含主键或模型
+            $cases->contains(48);
+            $cases->contains(Users::find(48));
+
+            //不在给定集合中
+            $case1 = $cases->diff(Cases::whereIn('id',[48,49,50])->get());
+
+            //不等于指定主键
+            $case2 = $cases->except([48,49]);
+
+            //查指定主键
+            $case3 = $cases->find([48,49]);
+
+            //用同样的条件更新模型实例，可以接受with参数预加载关联关系
+            $case4 = $cases->fresh();
+
+            $case5 = $cases->intersect(Cases::whereIn('id',[48,49,50])->get());
+
+            $case6 = $cases->modelKeys();
+
+            $case7 = $cases->makeHidden(['client_name']);
+
+            $case8 = Cases::find(48);
+            $case8->client_name = "Tomcat";
+            $case8->save();
+            dd($case8->delete_flag);
+        }
         public function log(Request $request){
             echo "Some of my log";
             $this->customService->customService();
