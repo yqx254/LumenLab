@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Resources\CaseCollection;
 use Illuminate\Http\Request;
 use App\Utils\CommonUtils;
 use App\Services\CustomService;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Model\Users;
 use App\Model\Roles;
 use App\Model\Cases;
+use App\Http\Resources\Cases AS CaseResource;
 
 class UserController extends  Controller {
         protected  $customService;
@@ -74,7 +76,6 @@ class UserController extends  Controller {
         //试玩集合类各种功能
         public function caseCollections(Request $request){
             $cases = Cases::all();
-
             //是否包含主键或模型
             $cases->contains(48);
             $cases->contains(Users::find(48));
@@ -98,9 +99,13 @@ class UserController extends  Controller {
             $case7 = $cases->makeHidden(['client_name']);
 
             $case8 = Cases::find(48);
-            $case8->client_name = "Tomcat";
-            $case8->save();
-            dd($case8->delete_flag);
+//            $case8->client_name = "Tomcat";
+//            $case8->save();
+            $case9 = CaseResource::collection(Cases::all());
+            $case10 = Cases::with('users:id,user_name,realname,role_id')->find(48);
+            $case11 = DB::table('bj_case')->where('id',48)->first();
+            $case10 = $case10->makeHidden(['status','create_name']);
+            return successJson($case10);
         }
         public function log(Request $request){
             echo "Some of my log";

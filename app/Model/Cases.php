@@ -4,14 +4,27 @@
 namespace App\Model;
 
 
+use Closure;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Cases extends Model {
     public $timestamps = false;
     protected $table = "bj_case";
+    protected $perPage = 20;
     protected $casts = [
         'delete_flag'   => 'boolean',
     ];
+    protected static function boot(){
+        parent::boot();
+        self::addGlobalScope('softDelete',function(Builder $builder){
+            $builder->where('delete_flag',0);
+        });
+    }
+
+    public function users(){
+        return $this->belongsTo('App\Model\Users','create_id');
+    }
 
     //获取client_name时进行前置操作的 访问器
     public function getClientNameAttribute($value){

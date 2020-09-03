@@ -15,7 +15,8 @@ class Users extends Model{
     //是否使用框架的时间戳管理（类型是timestamp）
     public $timestamps = false;
     //默认的预加载关联
-    protected $with = ['cases'];
+    //这个不能随便玩，例如，从case关联user而这个默认加载被打开的话，就会把user相关的case又重新加载一遍
+//    protected $with = ['cases'];
 
     protected static function boot(){
         parent::boot();
