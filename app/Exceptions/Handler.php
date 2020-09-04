@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -35,6 +36,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        if($exception instanceof ModelNotFoundException){
+            Log::error("model not found");
+        }
         parent::report($exception);
     }
 
@@ -50,5 +54,9 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    protected function context(){
+        return ['some'  => 'variable'];
     }
 }

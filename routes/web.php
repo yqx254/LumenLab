@@ -34,6 +34,10 @@ $router->get('/show2', ['uses'  => 'UserController@show2']);
 
 $router->get('/collection', ['uses'  => 'UserController@caseCollections']);
 
+$router->get('/encrypt', ['uses'  => 'EncryptController@encryptIndex']);
+
+$router->get('/exception', ['uses'  => 'ExceptionController@exceptionIndex']);
+
 $router->group(['middleware'    => ['mid'], 'prefix'   => 'filter', 'namespace'    => 'Filter'], function() use($router){
     $router->get('/profile',['uses'  => 'ProfileController@index']);
     $router->post('/edit',['uses'  => 'ProfileController@edit']);

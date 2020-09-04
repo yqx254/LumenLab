@@ -13,11 +13,15 @@ class JsonCollection extends ResourceCollection{
         $this->msg = $msg;
     }
 
-    public function toArray($request)    {
+    public function toArray($request){
         return [
             'result'    => 1,
             'data'  => $this->collection,
             'msg'   => $this->msg
         ];
+    }
+    //可修改请求头
+    public function withResponse($request, $response){
+        $response->header('X-Value', 'True');
     }
 }
