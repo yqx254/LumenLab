@@ -8,6 +8,7 @@ use App\Events\CaseCreatedEvent;
 use App\Events\CaseDestroyedEvent;
 use App\Exceptions\MyException;
 use App\Http\Resources\CaseCollection;
+use App\Mail\Sender;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Utils\CommonUtils;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use App\Model\Users;
 use App\Model\Roles;
 use App\Model\Cases;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\Cases AS CaseResource;
 
 class UserController extends  Controller {
@@ -141,5 +143,15 @@ class UserController extends  Controller {
             event(new CaseCreatedEvent($case));
 
             event(new CaseDestroyedEvent($case));
+        }
+        /**
+         * 发邮件试玩
+         */
+        public function sendMail(Request $request){
+            $case = Cases::find(48);
+            $user = Users::find($case->create_id);
+            $user->email = "ravix254@outlook.com";
+            $user->name = "貴様";
+            Mail::to($user)->send(new Sender($case));
         }
 }

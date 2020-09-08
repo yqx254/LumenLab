@@ -40,6 +40,8 @@ $router->get('/exception', ['uses'  => 'ExceptionController@exceptionIndex']);
 
 $router->get('listen', 'UserController@listen1');
 
+$router->get('send', 'UserController@sendMail');
+
 $router->group(['middleware'    => ['mid'], 'prefix'   => 'filter', 'namespace'    => 'Filter'], function() use($router){
     $router->get('/profile',['uses'  => 'ProfileController@index']);
     $router->post('/edit',['uses'  => 'ProfileController@edit']);

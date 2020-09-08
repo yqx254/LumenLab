@@ -100,6 +100,7 @@ $app->configure('app');
  $app->register(Illuminate\Redis\RedisServiceProvider::class);
  $app->register(App\Providers\DBServiceProvider::class);
  $app->register(App\Providers\EventServiceProvider::class);
+ $app->register(Illuminate\Mail\MailServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -118,4 +119,8 @@ $app->router->group([
     require __DIR__.'/../routes/web.php';
 });
 
+$app->configure('mail');
+$app->alias('mailer',Illuminate\Mail\Mailer::class);
+$app->alias('mailer',Illuminate\Constracts\Mail\Mailer::class);
+$app->alias('mailer',Illuminate\Constracts\Mail\MailQueue::class);
 return $app;

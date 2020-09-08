@@ -6,6 +6,8 @@
     "type": "project",
     "require": {
         "php": "^7.2.5",
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/mail": "^7.27",
         "illuminate/redis": "^7.26",
         "laravel/lumen-framework": "^7.0",
         "predis/predis": "^1.1"
