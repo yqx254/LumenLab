@@ -12,6 +12,6 @@ class MyException extends \Exception{
 
     //异常抛出时如何向浏览器端反馈
     public function render($request){
-        return successJson([]);
+        return failedJson(500,"record not found!!!");
     }
 }

@@ -4,7 +4,11 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\CaseCreatedEvent;
+use App\Events\CaseDestroyedEvent;
+use App\Exceptions\MyException;
 use App\Http\Resources\CaseCollection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Utils\CommonUtils;
 use App\Services\CustomService;
@@ -126,5 +130,16 @@ class UserController extends  Controller {
             })->get();
             echo count($res);
             echo Cache::get("mykey");
+        }
+
+        /**
+         * 监听器试玩
+         * @param Request $request
+         */
+        public function listen1(Request $request){
+            $case = Cases::find(48);
+            event(new CaseCreatedEvent($case));
+
+            event(new CaseDestroyedEvent($case));
         }
 }

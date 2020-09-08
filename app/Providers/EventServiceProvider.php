@@ -15,5 +15,12 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\ExampleEvent::class => [
             \App\Listeners\ExampleListener::class,
         ],
+        \App\Events\CaseCreatedEvent::class =>[
+            \App\Listeners\CaseCreatedListener::class
+        ],
+    ];
+
+    protected $subscribe = [
+        \App\Listeners\CaseSubscriber::class
     ];
 }

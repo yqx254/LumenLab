@@ -12,6 +12,7 @@ class Cases extends Model {
     public $timestamps = false;
     protected $table = "bj_case";
     protected $perPage = 20;
+    //对模型参数进行类型转换
     protected $casts = [
         'delete_flag'   => 'boolean',
     ];

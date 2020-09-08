@@ -38,6 +38,8 @@ $router->get('/encrypt', ['uses'  => 'EncryptController@encryptIndex']);
 
 $router->get('/exception', ['uses'  => 'ExceptionController@exceptionIndex']);
 
+$router->get('listen', 'UserController@listen1');
+
 $router->group(['middleware'    => ['mid'], 'prefix'   => 'filter', 'namespace'    => 'Filter'], function() use($router){
     $router->get('/profile',['uses'  => 'ProfileController@index']);
     $router->post('/edit',['uses'  => 'ProfileController@edit']);
