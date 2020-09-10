@@ -8,6 +8,7 @@ use App\Events\CaseCreatedEvent;
 use App\Events\CaseDestroyedEvent;
 use App\Exceptions\MyException;
 use App\Http\Resources\CaseCollection;
+use App\Jobs\MailJob;
 use App\Mail\Sender;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -153,5 +154,14 @@ class UserController extends  Controller {
             $user->email = "ravix254@outlook.com";
             $user->name = "貴様";
             Mail::to($user)->send(new Sender($case));
+        }
+        /**
+         * 队列试玩
+         */
+        public function dispatchQueue(Request $request){
+            //doing something risky
+
+            //dispatch queue
+            dispatch(new MailJob())->onQueue('email');
         }
 }
