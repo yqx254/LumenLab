@@ -12,6 +12,12 @@ class Cases extends Model {
     public $timestamps = false;
     protected $table = "bj_case";
     protected $perPage = 20;
+
+//    指定序列化时隐藏的字段
+//    protected $hidden = [];
+//    指定序列化时显示的字段
+//    protected $visible = [];
+
     //对模型参数进行类型转换
     protected $casts = [
         'delete_flag'   => 'boolean',

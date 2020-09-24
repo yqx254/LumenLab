@@ -44,9 +44,9 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping()
             ->sendOutputTo("/storage/logs/schedule.log")
             ->emailOutputOnFailure("ravix254@outlook.com")->before(function(){
-
+                //任务之前做的操作
             })->after(function(){
-
+                //任务之后做的操作
             });
     }
 }
