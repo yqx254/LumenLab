@@ -101,6 +101,7 @@ $app->configure('app');
  $app->register(App\Providers\DBServiceProvider::class);
  $app->register(App\Providers\EventServiceProvider::class);
  $app->register(Illuminate\Mail\MailServiceProvider::class);
+ $app->register(App\Providers\FacadeTestServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

@@ -44,6 +44,8 @@ $router->get('send', 'UserController@sendMail');
 
 $router->get('queue', 'UserController@dispatchQueue');
 
+$router->get('facade', 'UserController@myFacade');
+
 $router->group(['middleware'    => ['mid'], 'prefix'   => 'filter', 'namespace'    => 'Filter'], function() use($router){
     $router->get('/profile',['uses'  => 'ProfileController@index']);
     $router->post('/edit',['uses'  => 'ProfileController@edit']);

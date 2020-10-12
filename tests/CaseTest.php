@@ -1,9 +1,11 @@
 <?php
 
 
+use App\Http\Controllers\Facades\FacadeTest;
 class CaseTest extends TestCase{
 
+
     public function testBasic(){
-        $this->assertTrue(false);
+        echo FacadeTest::someService();
     }
 }

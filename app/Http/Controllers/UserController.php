@@ -22,6 +22,7 @@ use App\Model\Roles;
 use App\Model\Cases;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\Cases AS CaseResource;
+use App\Http\Controllers\Facades\FacadeTest;
 
 class UserController extends  Controller {
         protected  $customService;
@@ -163,5 +164,9 @@ class UserController extends  Controller {
 
             //dispatch queue
             dispatch(new MailJob())->onQueue('email');
+        }
+
+        public function myFacade(){
+            return successJson(FacadeTest::someService());
         }
 }
